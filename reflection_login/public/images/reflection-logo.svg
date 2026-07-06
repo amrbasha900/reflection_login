@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Reflection رفلكشن">
+	<rect width="1200" height="900" fill="transparent"/>
+	<g fill="#a74018">
+		<path fill-rule="evenodd" d="M472 414h118l70-70v94h94V344h-68l68-68V158H636L472 322v92Zm94-149h94v94h-94v-94Z"/>
+		<text x="600" y="598" text-anchor="middle" font-family="Arial Black, Impact, Arial, Tahoma, sans-serif" font-size="116" font-weight="900" letter-spacing="2">REFLECTION</text>
+		<text x="600" y="730" text-anchor="middle" font-family="Tahoma, Arial, sans-serif" font-size="120" font-weight="900">رفلكشن</text>
+	</g>
+</svg>

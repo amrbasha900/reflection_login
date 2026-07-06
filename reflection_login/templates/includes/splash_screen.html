@@ -1,0 +1,29 @@
+<div class="splash reflection-splash">
+	<img src="/assets/reflection_login/images/reflection-logo.svg" alt="Reflection" />
+</div>
+<style>
+	.reflection-splash {
+		position: fixed;
+		inset: 0;
+		z-index: 9999;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #000;
+	}
+
+	.reflection-splash img {
+		width: min(520px, 72vw);
+		max-height: min(420px, 58vh);
+		height: auto;
+		object-fit: contain;
+		filter: drop-shadow(0 24px 54px rgba(0, 0, 0, 0.5));
+	}
+
+	@media (max-width: 640px) {
+		.reflection-splash img {
+			width: min(360px, 82vw);
+			max-height: 42vh;
+		}
+	}
+</style>
