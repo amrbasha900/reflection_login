@@ -22,8 +22,11 @@
 
 	html,
 	body {
+		width: 100%;
+		height: 100%;
 		min-height: 100%;
 		background: var(--background);
+		overflow: hidden;
 	}
 
 	body {
@@ -62,37 +65,47 @@
 	}
 
 	.reflection-page {
-		min-height: 100vh;
+		height: 100vh;
+		height: 100svh;
+		min-height: 0;
 		display: flex;
 		flex-direction: column;
 		direction: rtl;
 		color: var(--text-primary);
+		overflow: hidden;
 	}
 
 	.login-shell {
 		width: 100%;
 		max-width: none;
+		min-height: 0;
 		margin: 0 auto;
-		padding: 48px min(6vw, 72px) 32px;
-		flex: 1;
+		padding: clamp(18px, 3.4vh, 38px) min(5vw, 64px) clamp(10px, 2vh, 18px);
+		flex: 1 1 auto;
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr) minmax(360px, 1fr);
+		grid-template-areas: "logo form";
 		align-items: center;
-		gap: min(6vw, 72px);
+		gap: min(5vw, 64px);
+		direction: ltr;
+		overflow: hidden;
 	}
 
 	.brand-panel {
+		grid-area: logo;
 		width: 100%;
-		min-height: 56vh;
+		min-height: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		direction: rtl;
 	}
 
 	.logo {
-		width: min(42vw, 560px);
+		width: min(44vw, 600px);
+		max-width: 100%;
 		height: auto;
-		max-height: 62vh;
+		max-height: calc(100svh - 150px);
 		object-fit: contain;
 	}
 
@@ -127,9 +140,11 @@
 	}
 
 	.login-area {
+		grid-area: form;
 		width: 100%;
 		max-width: 440px;
 		margin: 0 auto;
+		direction: rtl;
 	}
 
 	.auth-section {
@@ -149,21 +164,22 @@
 			linear-gradient(145deg, rgba(17, 17, 17, 0.96), rgba(8, 9, 8, 0.96)),
 			radial-gradient(circle at top left, rgba(167, 64, 24, 0.24), transparent 42%);
 		box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
-		padding: 34px;
+		padding: clamp(22px, 4vh, 32px);
 	}
 
 	.login-card h2,
 	.page-card-head h2 {
 		margin: 0 0 10px;
 		color: var(--brand-cream);
-		font-size: 30px;
+		font-size: clamp(22px, 3.4vh, 30px);
 		line-height: 1.2;
 		font-weight: 800;
+		text-align: center;
 	}
 
 	.login-card p,
 	.page-card-head p {
-		margin: 0 0 28px;
+		margin: 0 0 clamp(16px, 3vh, 24px);
 		color: var(--text-muted);
 		font-size: 15px;
 		line-height: 1.7;
@@ -176,7 +192,7 @@
 
 	.form-group,
 	.field {
-		margin-bottom: 18px;
+		margin-bottom: clamp(12px, 2.2vh, 18px);
 	}
 
 	.form-label,
@@ -192,7 +208,7 @@
 	.form-control,
 	input {
 		width: 100%;
-		height: 52px;
+		height: clamp(44px, 6.2vh, 52px);
 		border: 1px solid rgba(236, 228, 215, 0.16);
 		border-radius: 10px;
 		background: rgba(255, 255, 255, 0.045);
@@ -294,7 +310,7 @@
 	.btn,
 	.submit {
 		width: 100%;
-		min-height: 54px;
+		min-height: clamp(46px, 6.4vh, 54px);
 		border: 0;
 		border-radius: 10px;
 		background: var(--brand-orange);
@@ -341,7 +357,7 @@
 	}
 
 	.helper {
-		margin-top: 20px;
+		margin-top: clamp(12px, 2.2vh, 18px);
 	}
 
 	.sign-up-message {
@@ -349,7 +365,7 @@
 	}
 
 	.social-logins {
-		margin-top: 20px;
+		margin-top: clamp(12px, 2.2vh, 18px);
 	}
 
 	.social-login-buttons {
@@ -363,7 +379,7 @@
 
 	.indicator {
 		display: block;
-		margin-bottom: 18px;
+		margin-bottom: clamp(12px, 2.2vh, 18px);
 		color: var(--brand-cream);
 		background: transparent;
 	}
@@ -378,41 +394,81 @@
 	}
 
 	.footer {
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
-		background: #000;
-		padding: 28px 20px;
+		width: 100%;
+		flex: 0 0 82px;
+		display: flex;
+		align-items: center;
+		border-top: 1px solid rgba(236, 228, 215, 0.12);
+		background: linear-gradient(180deg, rgba(12, 12, 12, 0.98), #000);
+		padding: 14px min(5vw, 64px);
 	}
 
 	.footer-inner {
-		max-width: 1180px;
+		width: 100%;
+		max-width: none;
 		margin: 0 auto;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 20px;
-		color: rgba(236, 228, 215, 0.58);
+		gap: 22px;
+		color: rgba(236, 228, 215, 0.68);
 		font-size: 14px;
 	}
 
 	.footer-links {
 		display: flex;
 		align-items: center;
-		gap: 16px;
+		justify-content: flex-end;
+		gap: 12px;
 		flex-wrap: wrap;
 	}
 
+	.footer-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		min-height: 42px;
+		padding: 0 12px;
+		border: 1px solid rgba(236, 228, 215, 0.11);
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.035);
+		color: rgba(236, 228, 215, 0.72);
+	}
+
+	.footer-icon {
+		display: inline-grid;
+		place-items: center;
+		width: 28px;
+		height: 28px;
+		border: 1px solid rgba(167, 64, 24, 0.36);
+		border-radius: 50%;
+		background: rgba(167, 64, 24, 0.12);
+		color: var(--brand-orange);
+	}
+
+	.footer-icon svg {
+		width: 15px;
+		height: 15px;
+		stroke: currentColor;
+	}
+
 	.footer a:hover {
+		border-color: rgba(167, 64, 24, 0.38);
+		background: rgba(167, 64, 24, 0.09);
 		color: var(--brand-cream);
 	}
 
 	@keyframes reflection-shake {
+
 		0%,
 		100% {
 			transform: translateX(0);
 		}
+
 		25% {
 			transform: translateX(8px);
 		}
+
 		75% {
 			transform: translateX(-8px);
 		}
@@ -420,28 +476,99 @@
 
 	@media (max-width: 860px) {
 		.login-shell {
-			grid-template-columns: 1fr;
-			padding: 32px 20px;
-			gap: 28px;
-		}
-
-		.brand-panel {
-			min-height: auto;
+			grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr);
+			grid-template-areas: "logo form";
+			padding: 18px 16px 12px;
+			gap: 18px;
 		}
 
 		.logo {
-			width: min(72vw, 360px);
-			max-height: 220px;
+			width: min(34vw, 260px);
+			max-height: calc(100svh - 150px);
 		}
 
 		.login-area {
-			max-width: none;
-			margin: 0;
+			max-width: 390px;
+			margin: 0 auto;
+		}
+
+		.footer {
+			flex-basis: 96px;
+			padding: 12px 16px;
 		}
 
 		.footer-inner {
-			flex-direction: column;
+			justify-content: center;
+			gap: 12px;
 			text-align: center;
+		}
+
+		.footer-links {
+			justify-content: center;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.login-shell {
+			grid-template-columns: minmax(0, 0.72fr) minmax(230px, 1.28fr);
+			padding: 12px 10px 8px;
+			gap: 10px;
+		}
+
+		.logo {
+			width: min(30vw, 190px);
+		}
+
+		.login-content.page-card,
+		.login-card {
+			padding: 16px;
+			border-radius: 12px;
+		}
+
+		.page-card-head p,
+		.helper,
+		.remember {
+			font-size: 12px;
+		}
+
+		.footer {
+			flex-basis: 86px;
+			padding: 10px;
+		}
+
+		.footer-inner {
+			font-size: 11px;
+		}
+
+		.footer-links {
+			gap: 6px;
+		}
+
+		.footer-link {
+			min-height: 34px;
+			padding: 0 8px;
+		}
+
+		.footer-icon {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	@media (max-height: 620px) {
+
+		.login-card h2,
+		.page-card-head h2 {
+			font-size: 22px;
+		}
+
+		.page-card-head p,
+		.helper {
+			display: none;
+		}
+
+		.footer-inner>div:first-child {
+			display: none;
 		}
 	}
 </style>
@@ -450,7 +577,7 @@
 {% macro card_head(title, description) %}
 <div class="page-card-head">
 	<h2>{{ title }}</h2>
-	<p>{{ description }}</p>
+	<br>
 </div>
 {% endmacro %}
 
@@ -496,7 +623,8 @@
 	{% endif %}
 
 	{% if ldap_settings and ldap_settings.enabled %}
-	<button class="btn btn-sm {{ "btn-primary" if disable_user_pass_login else "btn-default" }} btn-block btn-login btn-ldap-login">
+	<button class="btn btn-sm {{ " btn-primary" if disable_user_pass_login else "btn-default" }} btn-block btn-login
+		btn-ldap-login">
 		تسجيل الدخول عبر LDAP
 	</button>
 	{% endif %}
@@ -515,7 +643,8 @@
 		<div class="login-area">
 			<noscript>
 				<div class="login-content page-card login-card">
-					{{ card_head("Javascript is disabled on your browser", "You need to enable JavaScript for your app to work.") }}
+					{{ card_head("Javascript is disabled on your browser", "You need to enable JavaScript for your app
+					to work.") }}
 				</div>
 			</noscript>
 
@@ -524,51 +653,41 @@
 					<form class="form-signin form-login" role="form">
 						{{ card_head("تسجيل الدخول", "استخدم بيانات حسابك للوصول إلى نظام ERPNext.") }}
 
-						{%- if social_login or login_with_email_link -%}
-							{{ email_login_body() }}
-							<div class="social-logins text-center">
-								{% if not disable_user_pass_login or (ldap_settings and ldap_settings.enabled) %}
-								<p class="text-muted login-divider">{{ _("or") }}</p>
-								{% endif %}
+						{%- if social_login -%}
+						{{ email_login_body() }}
+						<div class="social-logins text-center">
+							{% if not disable_user_pass_login or (ldap_settings and ldap_settings.enabled) %}
+							<p class="text-muted login-divider">{{ _("or") }}</p>
+							{% endif %}
 
-								<div class="social-login-buttons">
-									{% for provider in provider_logins %}
-									<div class="login-button-wrapper">
-										<a href="{{ provider.auth_url }}"
-											class="btn btn-block btn-default btn-sm btn-login-option btn-{{ provider.name }}">
-											{% if provider.icon %}
-												{{ provider.icon }}
-											{% endif %}
-											{{ _("Login with {0}").format(provider.provider_name) }}
-										</a>
-									</div>
-									{% endfor %}
+							<div class="social-login-buttons">
+								{% for provider in provider_logins %}
+								<div class="login-button-wrapper">
+									<a href="{{ provider.auth_url }}"
+										class="btn btn-block btn-default btn-sm btn-login-option btn-{{ provider.name }}">
+										{% if provider.icon %}
+										{{ provider.icon }}
+										{% endif %}
+										{{ _("Login with {0}").format(provider.provider_name) }}
+									</a>
 								</div>
-
-								{% if login_with_frappe_cloud_url %}
-								<div class="social-login-buttons">
-									<div class="login-button-wrapper">
-										<a href="{{ login_with_frappe_cloud_url }}"
-											class="btn btn-block btn-default btn-sm btn-login-option btn-login-with-frappe-cloud">
-											{{ _("Login with Frappe Cloud") }}
-										</a>
-									</div>
-								</div>
-								{% endif %}
-
-								{% if login_with_email_link %}
-								<div class="login-with-email-link social-login-buttons">
-									<div class="login-button-wrapper">
-										<a href="#login-with-email-link"
-											class="btn btn-block btn-default btn-sm btn-login-option btn-login-with-email-link">
-											الدخول عبر رابط البريد الإلكتروني
-										</a>
-									</div>
-								</div>
-								{% endif %}
+								{% endfor %}
 							</div>
+
+							{% if login_with_frappe_cloud_url %}
+							<div class="social-login-buttons">
+								<div class="login-button-wrapper">
+									<a href="{{ login_with_frappe_cloud_url }}"
+										class="btn btn-block btn-default btn-sm btn-login-option btn-login-with-frappe-cloud">
+										{{ _("Login with Frappe Cloud") }}
+									</a>
+								</div>
+							</div>
+							{% endif %}
+
+						</div>
 						{% else %}
-							{{ email_login_body() }}
+						{{ email_login_body() }}
 						{%- endif -%}
 
 						<div class="helper">
@@ -596,20 +715,20 @@
 			</section>
 			{%- endif -%}
 
-			<section class="auth-section for-signup {{ "signup-disabled" if disable_signup else "" }}">
+			<section class="auth-section for-signup {{ " signup-disabled" if disable_signup else "" }}">
 				<div class="login-content page-card login-card">
 					{{ card_head("إنشاء حساب", "أدخل بياناتك لإنشاء حساب جديد.") }}
 
 					{%- if not disable_signup -%}
-						{{ signup_form_template }}
+					{{ signup_form_template }}
 					{%- else -%}
-						<div class="page-card-body">
-							<span class="indicator gray">التسجيل غير متاح</span>
-							<p class="text-muted text-normal sign-up-message mt-1 mb-8">
-								تم تعطيل إنشاء الحسابات لهذا الموقع.
-							</p>
-							<div><a href="/" class="btn btn-primary btn-md">الرئيسية</a></div>
-						</div>
+					<div class="page-card-body">
+						<span class="indicator gray">التسجيل غير متاح</span>
+						<p class="text-muted text-normal sign-up-message mt-1 mb-8">
+							تم تعطيل إنشاء الحسابات لهذا الموقع.
+						</p>
+						<div><a href="/" class="btn btn-primary btn-md">الرئيسية</a></div>
+					</div>
 					{%- endif -%}
 				</div>
 			</section>
@@ -641,32 +760,6 @@
 				</div>
 			</section>
 
-			<section class="auth-section for-login-with-email-link">
-				<div class="login-content page-card login-card">
-					<form class="form-signin form-login-with-email-link hide" role="form">
-						{{ card_head("الدخول عبر رابط البريد", "سنرسل لك رابط دخول آمن على بريدك الإلكتروني.") }}
-
-						<div class="page-card-body">
-							<div class="form-group">
-								<label class="form-label" for="login_with_email_link_email">البريد الإلكتروني</label>
-								<div class="email-field">
-									<input type="email" id="login_with_email_link_email" class="form-control"
-										placeholder="name@example.com" required autofocus autocomplete="username">
-								</div>
-							</div>
-						</div>
-
-						<div class="page-card-actions">
-							<button class="btn btn-sm btn-primary btn-block btn-login-with-email-link submit" type="submit">
-								إرسال رابط الدخول
-							</button>
-							<p class="text-center sign-up-message">
-								<a href="#login">العودة لتسجيل الدخول</a>
-							</p>
-						</div>
-					</form>
-				</div>
-			</section>
 		</div>
 	</section>
 
@@ -675,10 +768,38 @@
 			<div>© 2026 Reflection IT Solutions | جميع الحقوق محفوظة</div>
 
 			<div class="footer-links">
-				<a href="mailto:info@dr.net.sa">info@dr.net.sa</a>
-				<a href="tel:+966508081312" dir="ltr">+966 50 808 1312</a>
-				<a href="https://wa.me/966556808180" target="_blank" rel="noopener noreferrer" dir="ltr">
-					WhatsApp
+				<a class="footer-link" href="mailto:info@dr.net.sa" dir="ltr" aria-label="Email info@dr.net.sa">
+					<span class="footer-icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+							stroke-linejoin="round">
+							<path d="M4 6h16v12H4z" />
+							<path d="m4 7 8 6 8-6" />
+						</svg>
+					</span>
+					<span>info@reflection.net.sa</span>
+				</a>
+				<a class="footer-link" href="tel:+966508081312" dir="ltr" aria-label="Phone +966 50 808 1312">
+					<span class="footer-icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+							stroke-linejoin="round">
+							<path
+								d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.2 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.89.68 2.78a2 2 0 0 1-.45 2.11L8.09 9.86a16 16 0 0 0 6.05 6.05l1.25-1.25a2 2 0 0 1 2.11-.45c.89.33 1.82.55 2.78.68A2 2 0 0 1 22 16.92Z" />
+						</svg>
+					</span>
+					<span>+966 50 808 1312</span>
+				</a>
+				<a class="footer-link" href="https://wa.me/966556808180" target="_blank" rel="noopener noreferrer"
+					dir="ltr" aria-label="WhatsApp +966 55 680 8180">
+					<span class="footer-icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+							stroke-linejoin="round">
+							<path d="M3 20.5 4.35 16A8.5 8.5 0 1 1 8 19.65L3 20.5Z" />
+							<path d="M9.4 8.8c.2 2.8 2.1 4.7 4.9 5" />
+							<path d="M9.6 8.8h.01" />
+							<path d="M14.4 13.8h.01" />
+						</svg>
+					</span>
+					<span>WhatsApp</span>
 				</a>
 			</div>
 		</div>
