@@ -23,10 +23,12 @@
 	html,
 	body {
 		width: 100%;
-		height: 100%;
+		height: auto;
 		min-height: 100%;
 		background: var(--background);
-		overflow: hidden;
+		overflow-x: hidden;
+		overflow-y: auto;
+		-webkit-text-size-adjust: 100%;
 	}
 
 	body {
@@ -56,23 +58,24 @@
 
 	.page_content,
 	.page-container,
-	.page_content .container {
+	.page_content .container,
+	.page-content-wrapper>main.container {
 		width: 100%;
 		max-width: none;
 		min-height: 100vh;
-		margin: 0;
+		min-height: 100svh;
+		/* .my-4 on the wrapper is a Bootstrap utility, hence !important */
+		margin: 0 !important;
 		padding: 0;
 	}
 
 	.reflection-page {
-		height: 100vh;
-		height: 100svh;
-		min-height: 0;
+		min-height: 100vh;
+		min-height: 100svh;
 		display: flex;
 		flex-direction: column;
 		direction: rtl;
 		color: var(--text-primary);
-		overflow: hidden;
 	}
 
 	.login-shell {
@@ -86,14 +89,15 @@
 		grid-template-columns: minmax(0, 1fr) minmax(360px, 1fr);
 		grid-template-areas: "logo form";
 		align-items: center;
+		align-content: center;
 		gap: min(5vw, 64px);
 		direction: ltr;
-		overflow: hidden;
 	}
 
 	.brand-panel {
 		grid-area: logo;
 		width: 100%;
+		min-width: 0;
 		min-height: 0;
 		display: flex;
 		align-items: center;
@@ -105,7 +109,7 @@
 		width: min(44vw, 600px);
 		max-width: 100%;
 		height: auto;
-		max-height: calc(100svh - 150px);
+		max-height: min(72svh, calc(100svh - 150px));
 		object-fit: contain;
 	}
 
@@ -332,6 +336,26 @@
 		box-shadow: none;
 	}
 
+	/* Frappe's website bundle ships `.btn.btn-primary` plus an `:active` rule
+	   marked !important, so the brand colour needs matching weight to win. */
+	.reflection-page .btn.btn-primary,
+	.reflection-page button.submit {
+		background-color: var(--brand-orange) !important;
+		border-color: var(--brand-orange) !important;
+		color: #fff !important;
+	}
+
+	.reflection-page .btn.btn-primary:hover,
+	.reflection-page .btn.btn-primary:focus,
+	.reflection-page .btn.btn-primary:active,
+	.reflection-page button.submit:hover,
+	.reflection-page button.submit:focus,
+	.reflection-page button.submit:active {
+		background-color: var(--brand-orange-hover) !important;
+		border-color: var(--brand-orange-hover) !important;
+		color: #fff !important;
+	}
+
 	.btn-default,
 	.btn-login-option {
 		border: 1px solid rgba(236, 228, 215, 0.16);
@@ -475,30 +499,39 @@
 		}
 	}
 
-	@media (max-width: 860px) {
+	/* Tablet and below: stack the logo above the form so neither gets squeezed. */
+	@media (max-width: 960px) {
 		.login-shell {
-			grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr);
-			grid-template-areas: "logo form";
-			padding: 18px 16px 12px;
-			gap: 18px;
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-areas:
+				"logo"
+				"form";
+			justify-items: center;
+			align-content: center;
+			gap: clamp(12px, 3vh, 26px);
+			padding: clamp(18px, 4vh, 32px) 20px clamp(18px, 3vh, 28px);
+		}
+
+		.brand-panel {
+			max-width: 100%;
 		}
 
 		.logo {
-			width: min(34vw, 260px);
-			max-height: calc(100svh - 150px);
+			width: min(52vw, 260px);
+			max-height: min(28svh, 240px);
 		}
 
 		.login-area {
-			max-width: 390px;
-			margin: 0 auto;
+			max-width: 460px;
 		}
 
 		.footer {
-			flex-basis: 96px;
-			padding: 12px 16px;
+			flex: 0 0 auto;
+			padding: 14px 20px;
 		}
 
 		.footer-inner {
+			flex-direction: column;
 			justify-content: center;
 			gap: 12px;
 			text-align: center;
@@ -509,45 +542,75 @@
 		}
 	}
 
-	@media (max-width: 640px) {
+	@media (max-width: 600px) {
 		.login-shell {
-			grid-template-columns: minmax(0, 0.72fr) minmax(230px, 1.28fr);
-			padding: 12px 10px 8px;
-			gap: 10px;
+			gap: clamp(10px, 2.4vh, 18px);
+			padding: clamp(14px, 3vh, 24px) 14px 20px;
 		}
 
 		.logo {
-			width: min(30vw, 190px);
+			width: min(58vw, 210px);
+			max-height: min(24svh, 190px);
+		}
+
+		.login-area {
+			max-width: 100%;
 		}
 
 		.login-content.page-card,
 		.login-card {
-			padding: 16px;
-			border-radius: 12px;
+			padding: 18px 16px;
+			border-radius: 14px;
+			box-shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
+		}
+
+		.login-card h2,
+		.page-card-head h2 {
+			font-size: 22px;
 		}
 
 		.page-card-head p,
 		.helper,
-		.remember {
-			font-size: 12px;
+		.remember,
+		.forgot-password-message {
+			font-size: 13px;
+		}
+
+		.form-control,
+		input {
+			height: 48px;
+			/* 16px keeps iOS Safari from zooming in on focus */
+			font-size: 16px;
+		}
+
+		.auth-row {
+			flex-wrap: wrap;
+			gap: 8px;
+			margin: 8px 0 18px;
+		}
+
+		.btn,
+		.submit {
+			min-height: 50px;
 		}
 
 		.footer {
-			flex-basis: 86px;
-			padding: 10px;
+			padding: 14px;
 		}
 
 		.footer-inner {
-			font-size: 11px;
+			font-size: 12px;
+			gap: 10px;
 		}
 
 		.footer-links {
-			gap: 6px;
+			gap: 8px;
 		}
 
 		.footer-link {
-			min-height: 34px;
-			padding: 0 8px;
+			min-height: 38px;
+			padding: 0 10px;
+			font-size: 12px;
 		}
 
 		.footer-icon {
@@ -556,16 +619,98 @@
 		}
 	}
 
+	/* Narrow phones: let each contact link take a full row instead of wrapping mid-label. */
+	@media (max-width: 380px) {
+		.logo {
+			width: min(62vw, 180px);
+		}
+
+		.footer-links {
+			flex-direction: column;
+			align-items: stretch;
+			width: 100%;
+		}
+
+		.footer-link {
+			justify-content: center;
+		}
+	}
+
+	/* Phones in landscape: back to side-by-side, the form needs the vertical room. */
+	@media (max-width: 960px) and (orientation: landscape) and (max-height: 560px) {
+		.login-shell {
+			grid-template-columns: minmax(0, 0.75fr) minmax(280px, 1.25fr);
+			grid-template-areas: "logo form";
+			justify-items: stretch;
+			align-items: center;
+			gap: 20px;
+			padding: 16px 20px;
+		}
+
+		.logo {
+			width: min(28vw, 190px);
+			max-height: 62svh;
+		}
+
+		.login-area {
+			max-width: 420px;
+		}
+
+		.footer-inner {
+			flex-direction: row;
+			justify-content: space-between;
+			text-align: start;
+		}
+	}
+
+	/* Short viewports: trim optional copy and spacing so the form stays above the fold. */
 	@media (max-height: 620px) {
 
 		.login-card h2,
 		.page-card-head h2 {
-			font-size: 22px;
+			margin-bottom: 14px;
+			font-size: 20px;
 		}
 
 		.page-card-head p,
-		.helper {
+		.helper,
+		.page-card-head br {
 			display: none;
+		}
+
+		.login-content.page-card,
+		.login-card {
+			padding: 14px 16px;
+		}
+
+		.form-group,
+		.field {
+			margin-bottom: 10px;
+		}
+
+		.form-label,
+		.field-label {
+			margin-bottom: 5px;
+		}
+
+		.form-control,
+		input {
+			height: 42px;
+		}
+
+		.auth-row {
+			margin: 6px 0 12px;
+		}
+
+		.btn,
+		.submit {
+			min-height: 44px;
+		}
+
+		.footer {
+			flex-basis: auto;
+			padding: 10px 16px;
+			margin-bottom: 0;
 		}
 
 		.footer-inner>div:first-child {
