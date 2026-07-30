@@ -113,6 +113,31 @@
 		object-fit: contain;
 	}
 
+	/* Co-branding: only rendered when Website Settings has an App Logo attached. */
+	.brand-panel.has-app-logo {
+		gap: clamp(14px, 2.4vw, 32px);
+	}
+
+	.has-app-logo .logo {
+		width: min(26vw, 340px);
+		max-height: min(46svh, 340px);
+	}
+
+	.brand-divider {
+		flex: 0 0 1px;
+		align-self: center;
+		height: min(30svh, 220px);
+		background: linear-gradient(180deg, transparent, rgba(236, 228, 215, 0.28), transparent);
+	}
+
+	.app-logo {
+		width: auto;
+		max-width: min(22vw, 260px);
+		max-height: min(30svh, 220px);
+		height: auto;
+		object-fit: contain;
+	}
+
 	.badge {
 		display: inline-flex;
 		align-items: center;
@@ -253,8 +278,11 @@
 		opacity: 0.78;
 	}
 
+	/* The inputs are dir="ltr" (see the paste sanitiser below) while the card is
+	   RTL, so the toggle sits on the left and the padding must be explicit. */
 	.password-field .form-control {
-		padding-inline-end: 62px;
+		padding-left: 62px;
+		padding-right: 16px;
 	}
 
 	.field-icon {
@@ -521,6 +549,20 @@
 			max-height: min(28svh, 240px);
 		}
 
+		.has-app-logo .logo {
+			width: min(38vw, 180px);
+			max-height: min(20svh, 165px);
+		}
+
+		.app-logo {
+			max-width: min(30vw, 150px);
+			max-height: min(15svh, 120px);
+		}
+
+		.brand-divider {
+			height: min(14svh, 110px);
+		}
+
 		.login-area {
 			max-width: 460px;
 		}
@@ -551,6 +593,20 @@
 		.logo {
 			width: min(58vw, 210px);
 			max-height: min(24svh, 190px);
+		}
+
+		.has-app-logo .logo {
+			width: min(34vw, 140px);
+			max-height: min(17svh, 130px);
+		}
+
+		.app-logo {
+			max-width: min(28vw, 120px);
+			max-height: min(13svh, 95px);
+		}
+
+		.brand-divider {
+			height: min(12svh, 88px);
 		}
 
 		.login-area {
@@ -619,12 +675,9 @@
 		}
 	}
 
-	/* Narrow phones: let each contact link take a full row instead of wrapping mid-label. */
-	@media (max-width: 380px) {
-		.logo {
-			width: min(62vw, 180px);
-		}
-
+	/* Phones: one contact link per row beats a ragged 2-then-1 wrap, and the
+	   full-width rows are easier to tap. */
+	@media (max-width: 480px) and (orientation: portrait) {
 		.footer-links {
 			flex-direction: column;
 			align-items: stretch;
@@ -633,6 +686,12 @@
 
 		.footer-link {
 			justify-content: center;
+		}
+	}
+
+	@media (max-width: 380px) {
+		.logo {
+			width: min(62vw, 180px);
 		}
 	}
 
@@ -650,6 +709,29 @@
 		.logo {
 			width: min(28vw, 190px);
 			max-height: 62svh;
+		}
+
+		.has-app-logo {
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.has-app-logo .logo {
+			width: min(22vw, 140px);
+			max-height: 34svh;
+		}
+
+		.has-app-logo .brand-divider {
+			flex: 0 0 1px;
+			align-self: center;
+			width: min(18vw, 110px);
+			height: 1px;
+			background: linear-gradient(90deg, transparent, rgba(236, 228, 215, 0.28), transparent);
+		}
+
+		.app-logo {
+			max-width: min(20vw, 120px);
+			max-height: 22svh;
 		}
 
 		.login-area {
@@ -733,7 +815,8 @@
 	<div class="form-group">
 		<label class="form-label" for="login_email">البريد الإلكتروني أو اسم المستخدم</label>
 		<div class="email-field">
-			<input type="text" id="login_email" class="form-control"
+			<input type="text" id="login_email" class="form-control" dir="ltr" inputmode="email"
+				autocapitalize="none" autocorrect="off" spellcheck="false"
 				placeholder="{% if login_name_placeholder %}{{ login_name_placeholder }}{% else %}name@example.com{% endif %}"
 				required autofocus autocomplete="username">
 		</div>
@@ -742,8 +825,8 @@
 	<div class="form-group">
 		<label class="form-label" for="login_password">كلمة المرور</label>
 		<div class="password-field">
-			<input type="password" id="login_password" class="form-control" placeholder="•••••"
-				autocomplete="current-password" required>
+			<input type="password" id="login_password" class="form-control" dir="ltr" autocapitalize="none"
+				autocorrect="off" spellcheck="false" placeholder="•••••" autocomplete="current-password" required>
 			<span toggle="#login_password" class="toggle-password">{{ _('Show') }}</span>
 		</div>
 	</div>
@@ -780,10 +863,15 @@
 {% block page_content %}
 <main class="reflection-page">
 	<section class="login-shell">
-		<div class="brand-panel">
+		<div class="brand-panel{% if app_logo %} has-app-logo{% endif %}">
 			<img class="logo" src="/assets/reflection_login/images/reflection-logo.png" alt="Reflection IT Solutions"
 				onerror="this.onerror=null; this.src='{{ logo }}';">
 
+			{% if app_logo %}
+			<span class="brand-divider" aria-hidden="true"></span>
+			<img class="app-logo" src="{{ app_logo }}" alt="{{ app_name or '' }}"
+				onerror="this.onerror=null; this.parentNode.classList.remove('has-app-logo'); this.previousElementSibling.remove(); this.remove();">
+			{% endif %}
 		</div>
 
 		<div class="login-area">
@@ -888,8 +976,10 @@
 							<div class="form-group">
 								<label class="form-label" for="forgot_email">البريد الإلكتروني</label>
 								<div class="email-field">
-									<input type="email" id="forgot_email" class="form-control"
-										placeholder="name@example.com" required autofocus autocomplete="username">
+									<input type="email" id="forgot_email" class="form-control" dir="ltr"
+										inputmode="email" autocapitalize="none" autocorrect="off"
+										spellcheck="false" placeholder="name@example.com" required autofocus
+										autocomplete="username">
 								</div>
 							</div>
 						</div>
@@ -955,6 +1045,74 @@
 
 {% block script %}
 <script>{% include "templates/includes/login/login.js" %}</script>
+<script>
+	(function () {
+		// iOS copies text with invisible Unicode baggage: bidi marks and isolates
+		// (RLM/LRM/FSI/PDI) picked up from Arabic apps, zero-width joiners, soft
+		// hyphens and BOMs. They survive a paste into the login fields, so the
+		// credentials look right on screen but never match on the server.
+		var INVISIBLE = /[\u00AD\u070F\u180E\u200B-\u200F\u202A-\u202E\u2060-\u2064\u2066-\u2069\uFEFF]/g;
+		// Newlines/tabs come from selecting a whole line in Mail or Notes.
+		var BREAKS = /[\r\n\t\v\f]+/g;
+		// Non-breaking and other exotic spaces render like a normal space.
+		var ODD_SPACES = /[\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]/g;
+
+		function scrub(value, trimEnds) {
+			var cleaned = value.replace(INVISIBLE, "").replace(BREAKS, "").replace(ODD_SPACES, " ");
+			return trimEnds ? cleaned.trim() : cleaned;
+		}
+
+		function clean_field(input, trimEnds) {
+			var before = input.value;
+			var after = scrub(before, trimEnds);
+			if (after === before) return;
+
+			// Keep the caret where the user expects it after we shorten the value.
+			var caret = input.selectionStart;
+			input.value = after;
+			if (caret !== null && caret !== undefined) {
+				var shifted = Math.max(0, caret - (before.length - after.length));
+				try {
+					input.setSelectionRange(shifted, shifted);
+				} catch (e) {
+					// Selection APIs throw on some input types (e.g. email) in Safari.
+				}
+			}
+		}
+
+		function is_text_input(el) {
+			return el && el.tagName === "INPUT" && !/^(checkbox|radio|submit|button|file)$/i.test(el.type);
+		}
+
+		// Delegated so the signup and forgot-password fields are covered too,
+		// including the ones Frappe renders after page load.
+		document.addEventListener("paste", function (e) {
+			if (!is_text_input(e.target)) return;
+			var input = e.target;
+			// Let the browser do the paste, then clean what actually landed —
+			// this keeps native undo and autofill behaviour intact.
+			setTimeout(function () {
+				clean_field(input, true);
+			}, 0);
+		}, true);
+
+		// Typing can't produce these characters, so stripping them here is safe.
+		// Ends are NOT trimmed on input: that would eat a space the moment it is
+		// typed inside a passphrase.
+		document.addEventListener("input", function (e) {
+			if (!is_text_input(e.target)) return;
+			clean_field(e.target, false);
+		}, true);
+
+		document.addEventListener("submit", function (e) {
+			var form = e.target;
+			if (!form || !form.querySelectorAll) return;
+			Array.prototype.forEach.call(form.querySelectorAll("input"), function (input) {
+				if (is_text_input(input)) clean_field(input, input.type !== "password");
+			});
+		}, true);
+	})();
+</script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}

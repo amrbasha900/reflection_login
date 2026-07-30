@@ -1,5 +1,12 @@
-<div class="splash reflection-splash">
-	<img src="/assets/reflection_login/images/reflection-logo.png" alt="Reflection" />
+{%- set co_brand_logo = frappe.db.get_single_value("Website Settings", "app_logo") -%}
+<div class="splash reflection-splash{% if co_brand_logo %} has-app-logo{% endif %}">
+	<div class="reflection-splash-logos">
+		<img class="reflection-splash-mark" src="/assets/reflection_login/images/reflection-logo.png" alt="Reflection" />
+		{%- if co_brand_logo %}
+		<span class="reflection-splash-divider" aria-hidden="true"></span>
+		<img class="reflection-splash-app" src="{{ co_brand_logo | e }}" alt="" />
+		{%- endif %}
+	</div>
 </div>
 <style>
 	.reflection-splash {
@@ -12,6 +19,15 @@
 		background: #000;
 	}
 
+	.reflection-splash-logos {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(16px, 3vw, 40px);
+		direction: rtl;
+		padding: 0 16px;
+	}
+
 	.reflection-splash img {
 		width: min(520px, 72vw);
 		max-height: min(420px, 58vh);
@@ -20,10 +36,43 @@
 		filter: drop-shadow(0 24px 54px rgba(0, 0, 0, 0.5));
 	}
 
+	/* Co-branding: only rendered when Website Settings has an App Logo attached. */
+	.reflection-splash.has-app-logo .reflection-splash-mark {
+		width: min(320px, 40vw);
+		max-height: min(280px, 38vh);
+	}
+
+	.reflection-splash-divider {
+		flex: 0 0 1px;
+		align-self: center;
+		height: min(180px, 26vh);
+		background: linear-gradient(180deg, transparent, rgba(236, 228, 215, 0.28), transparent);
+	}
+
+	.reflection-splash .reflection-splash-app {
+		width: auto;
+		max-width: min(260px, 32vw);
+		max-height: min(200px, 28vh);
+	}
+
 	@media (max-width: 640px) {
-		.reflection-splash img {
+		.reflection-splash .reflection-splash-mark {
 			width: min(360px, 82vw);
 			max-height: 42vh;
+		}
+
+		.reflection-splash.has-app-logo .reflection-splash-mark {
+			width: min(180px, 42vw);
+			max-height: 24vh;
+		}
+
+		.reflection-splash-divider {
+			height: min(110px, 16vh);
+		}
+
+		.reflection-splash .reflection-splash-app {
+			max-width: min(150px, 34vw);
+			max-height: 18vh;
 		}
 	}
 </style>
